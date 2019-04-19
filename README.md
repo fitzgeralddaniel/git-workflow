@@ -112,7 +112,7 @@ $ git commit
 
 This will open a [`vi`](http://www.lagmonster.org/docs/vi.html) window by default in which you can enter a message to describe your commit (you can bypass this and enter a message from the command line by using the `-m` option).  Git commit messages could be a topic in and of themselves (see [this page](https://chris.beams.io/posts/git-commit/) for things to keep in mind when writing them), but for now you can simply use the message `My first commit`.  Once you save the message you've successfully created your first commit!
 
-**NOTE**: *If this is your absolute first time creating a commit, `git` may have prompted you to enter a global name and email address to associate with your commit so that other collaborators can contact you if they need to.  For this you can simply follow the info that `git` provides in that message and proceed above as normal. You will only be asked to set this once.*
+**NOTE:** *If this is your absolute first time creating a commit, `git` may have prompted you to enter a global name and email address to associate with your commit so that other collaborators can contact you if they need to.  For this you can simply follow the info that `git` provides in that message and proceed above as normal. You will only be asked to set this once.*
 
 Now if we run the `status` command again, we will see the output for a normal, `Unmodified` `git` repository.
 
@@ -133,7 +133,7 @@ Date:   Thu Apr 18 20:15:23 2019 -0700
     My first commit
 ```
 
-This will show us the unique hash for each commit (which can be used to look up the commit later), as well as the Author, Date, and Commit Message.  It also shows which commit is currently set as the `HEAD` for the current branch.  For this, think of a tape playing through a cassette player.  The head of that cassette can be at any point in the music track and can be rewound, or fast-forwarded to move around through the music.
+This will show us the unique hash for each commit (which can be used to look up the commit later), as well as the Author, Date, and Commit Message.  It also shows which commit is currently set as the local `HEAD`.  For this, think of a tape playing through a cassette player.  The head of that cassette can be at any point in the music track and can be rewound, or fast-forwarded to move around through the music.
 
 ## Making Changes
 
@@ -159,7 +159,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 As you can see , our `index.html` page is now in the `Modified` state.  To stage the file, and commit, simply run the same commands as before.
 
-**NOTE**: *The `.` selects all of the files in the current directory*
+**NOTE:** *The `.` selects all of the files in the current directory*
 
 ```bash
 $ git add .
@@ -246,7 +246,7 @@ $ git branch css-test
 
 Now you have a `css-test` branch (you can see it with `git branch`), but have not checked it out yet.  In order to do this, run the `checkout` command for the new `css-test` branch as you did with `master` before.
 
-**NOTE**: *A shortcut to both create a branch and check it out is to use the `-b` switch on the checkout command as in `git checkout -b css-test`*
+**NOTE:** *A shortcut to both create a branch and check it out is to use the `-b` switch on the checkout command as in `git checkout -b css-test`*
 
 ```bash
 $ git checkout css-test
@@ -352,7 +352,7 @@ $ git checkout master
 
 Now edit your `index.html` page on line `27` to be something different than `Cover`, and different from the name you put in before.
 
-**NOTE**: *`git` can be smart sometimes if the exact same change is made in the exact same way, so make sure it different than before.*
+**NOTE:** *`git` can be smart sometimes if the exact same change is made in the exact same way, so make sure it is different than before.*
 
 Once saved, stage and commit the file as before.
 
@@ -361,7 +361,7 @@ $ git add .
 $ git commit
 ```
 
-** NOTE**: *If we run the `log` command at this point we will see that our `name-test` commit is not visible because it is not part of the history of `master`*
+**NOTE:** *If we run the `log` command at this point we will see that our `name-test` commit is not visible because it is not part of the history of `master`*
 
 We are now ready to create our merge conflict.  Since we are already on the `master` branch, run the following command to `merge` name-test` into `master`:
 
@@ -391,7 +391,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 And if we look at our `index.html` file, we will see that `git` has helpfully segmented the changes for our review so that we can manually merge the two changes together.
 
-```bash
+```html
 <div class="inner">
 <<<<<<< HEAD
 <h3 class="masthead-brand">My Dog</h3>
@@ -418,10 +418,58 @@ nothing to commit, working tree clean
 
 ## Using Remotes
 
+**NOTE:** *From here on out, this guide assumes that you have a GitHub account. GitLab, and other git remote hosts provide similar features but differ in their implementation.*
+
+Now that you have learned the basics of using `git` locally, it's time to add a `remote` to your project.  A `remote` is simply a named server that you `push` your commits to so that others can `pull` them back down.  For this we will create a GitHub repository by creating a GitHub account, and selecting the `+` button in the top right, then `New Repository`, and filling out the form with the information it requests.  Once this is done, we can copy the remote's `.git` URL and proceed with adding a remote on the command line.
+
+To add a remote for your GitHub repository named `origin` (the default name for most single-remote `git` projects), run the following command:
+
+**NOTE:** *For simplicities sake it may be easier to use an `https` remote URL instead of an `ssh` URL.  If you are unfamiliar with creating SSH keys, I would recommend using the `https` version.*
+
 ```bash
 $ git remote add origin <your-git-repo-url>
 ```
 
+Once this is done, you simply need to use the `push` command to push your local commits to the remote.
+
 ```bash
 $ git push -u origin master
+Enumerating objects: 16, done.
+Counting objects: 100% (16/16), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (13/13), done.
+Writing objects: 100% (16/16), 3.22 KiB | 3.22 MiB/s, done.
+Total 16 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), done.
+To github.com:<your-username>/<your-repo>
+ * [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
 ```
+
+**NOTE:** *The -u in the command sets up the remote to use for a given branch.  Any new branches will use the `origin` remote by default, and after running this command `master` now will as well.  Because of this, from here on out you can simply use the `git push` command without any switches.*
+
+One of the great things about remotes is that changes can be made on other machines or by other people and be synced to your local machine.  To test this out let's add a `README.md` file through the GitHub page for your repository by clicking the "Create new file" button and naming the file `README.md`. Place whatever text you want in the file, and when you have committed that from the web UI, run the following command to pull it down to your local machine:
+
+```bash
+$ git pull
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From github.com:<your-username>/<your-repo>
+   b28e0de..422c12a  master     -> origin/master
+Updating b28e0de..422c12a
+Fast-forward
+ README | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README
+```
+
+Once this runs, you should be able to see the file you created populate in your local filesystem.
+
+## GitHub Pages
+
+Other great things about remote's are the custom extensions that they have built around the `git` infrastructure, such as issue tracking, collaboration management, and even website hosting.  GitHub supports a feature called `GitHub Pages` that we can use to get the website we have been building hosted on GitHub.  To enable GitHub pages, go to your project's settings in GitHub, scroll to the GitHub Pages section, and set the Source to your `master` branch.
+
+Once that's done, your site is published!  From here feel free to edit the site as you wish, and customize it to make it your own, all within your newfound `git` workflow!
