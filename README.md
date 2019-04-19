@@ -427,7 +427,7 @@ To add a remote for your GitHub repository named `origin` (the default name for 
 **NOTE:** *For simplicities sake it may be easier to use an `https` remote URL instead of an `ssh` URL.  If you are unfamiliar with creating SSH keys, I would recommend using the `https` version.*
 
 ```bash
-$ git remote add origin <your-git-repo-url>
+$ git remote add origin <your-git-remote-url>
 ```
 
 Once this is done, you simply need to use the `push` command to push your local commits to the remote.
@@ -472,4 +472,10 @@ Once this runs, you should be able to see the file you created populate in your 
 
 Other great things about remote's are the custom extensions that they have built around the `git` infrastructure, such as issue tracking, collaboration management, and even website hosting.  GitHub supports a feature called `GitHub Pages` that we can use to get the website we have been building hosted on GitHub.  To enable GitHub pages, go to your project's settings in GitHub, scroll to the GitHub Pages section, and set the Source to your `master` branch.
 
-Once that's done, your site is published!  From here feel free to edit the site as you wish, and customize it to make it your own, all within your newfound `git` workflow!
+Once that's done, your site is published!  From here feel free to edit the site as you wish, and customize it to make it your own, all within your newfound `git` workflow!  You can also add collaborators to your site if you wish, and they canget an exactcopy of the repository on their devices using the `clone` command:
+
+```bash
+$ git clone <your-git-remote-url>
+```
+
+This will create a new folder with the same name as your `git` repository for them to collaborate with you on!
