@@ -61,25 +61,79 @@ drwxr-xr-x   4 starr  staff  128 Apr 18 18:09 refs
 
 ## First Commit
 
+Commits are the core way that `git` records changes in the repository, and they represent a snapshot of files in time.  Commits are made whenever you reach a state in your project that you would like to record, say if you were working on rewording a document or refactoring some code, but wanted to try a different path without deleting your current progress.  In order to create a commit, we need some changes first so let's run the following command to create an `index.html` file in the current directory.
+
 ```bash
 $ touch index.html
 ```
 
+Once this completes we can use the `status` command to see what effect this had on the `git` repository.
+
 ```
 $ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	index.html
+
+nothing added to commit but untracked files present (use "git add" to track)
 ```
+
+As you can see we still don't have any commits yet, but `git` has picked up the new `Untracked` file that we created above.  Files can be in one of four states (`Untracked`, `Unmodified`, `Modified`, and `Staged`) depending on where they are in the `git` process, but will always initially be `Untracked` when they are created (more on this in the [Pro Git Book](https://git-scm.com/book/en/v2)).  You can also see that the `status` command is trying to be helpful and is pointing us to the next command we want to run to create a commit, which is `add`.  The `add` command will move any `Untracked` or `Modified` file to the `Staged` state which will tell `git` to stage it to get ready for the next commit.  This allows you to be selective about which files go into each of your commits. The `add` command can be ran using the following command.
 
 ```bash
 $ git add index.html
 ```
 
+Once this completes we can again use the `status` command to see what effect this had on the `git` repository.
+
 ```
 $ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   index.html
+
 ```
+
+Now `status` shows that our `index.html` file is `Staged` and is ready to be committed along with showing us the `rm` command which will allow us to unstage the file if we would like. Now that we are ready to commit, we can simply run the following command.
 
 ```bash
 $ git commit
 ```
+
+This will open a [`vi`](http://www.lagmonster.org/docs/vi.html) window by default in which you can enter a message to describe your commit (you can bypass this and enter a message from the command line by using the `-m` option).  Git commit messages could be a topic in and of themselves (see [this page](https://chris.beams.io/posts/git-commit/) for things to keep in mind when writing them), but for now you can simply use the message `My first commit`.  Once you save the message you've successfully created your first commit!
+
+**NOTE**: If this is your absolute first time creating a commit, `git` may have prompted you to enter a global name and email address to associate with your commit so that other collaborators can contact you if they need to.  For this you can simply follow the info that `git` provides in that message and proceed above as normal.
+
+Now if we run the `status` command again, we will see the output for a normal, `Unmodified` `git` repository.
+
+```bash
+$ git status
+On branch master
+nothing to commit, working tree clean
+```
+
+And if we want to actually see the commit history we have created thus far, we can use the `log` command.
+
+```bash
+$ git log
+commit dfbd01f915e535b6936693b43e297236a095f4bb (HEAD -> master)
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 20:15:23 2019 -0700
+
+    My first commit
+```
+
+This will show us the unique hash for each commit (which can be used to look it up later), as well as the Author, Date, and Commit Message.
 
 ## Making Changes
 
