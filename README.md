@@ -23,7 +23,7 @@ Once this command completes, you have your first `git` repository! You can inspe
 $ git status
 ```
 
-Below you can see a sample of the output of the `status` command which will show you the `branch` you are on (more on that later), your current `commit` status (also more on that later), and some help text to guide you onto potential next steps.
+Below you can see a sample of the output of the `status` command which will show you the `branch` you are on (in this case `master`, but more on that later), your current `commit` status (also more on that later), and some help text to guide you onto potential next steps.
 
 ```
 On branch master
@@ -69,7 +69,7 @@ $ touch index.html
 
 Once this completes we can use the `status` command to see what effect this had on the `git` repository.
 
-```
+```bash
 $ git status
 On branch master
 
@@ -91,7 +91,7 @@ $ git add index.html
 
 Once this completes we can again use the `status` command to see what effect this had on the `git` repository.
 
-```
+```bash
 $ git status
 On branch master
 
@@ -112,7 +112,7 @@ $ git commit
 
 This will open a [`vi`](http://www.lagmonster.org/docs/vi.html) window by default in which you can enter a message to describe your commit (you can bypass this and enter a message from the command line by using the `-m` option).  Git commit messages could be a topic in and of themselves (see [this page](https://chris.beams.io/posts/git-commit/) for things to keep in mind when writing them), but for now you can simply use the message `My first commit`.  Once you save the message you've successfully created your first commit!
 
-**NOTE**: If this is your absolute first time creating a commit, `git` may have prompted you to enter a global name and email address to associate with your commit so that other collaborators can contact you if they need to.  For this you can simply follow the info that `git` provides in that message and proceed above as normal.
+**NOTE**: *If this is your absolute first time creating a commit, `git` may have prompted you to enter a global name and email address to associate with your commit so that other collaborators can contact you if they need to.  For this you can simply follow the info that `git` provides in that message and proceed above as normal. You will only be asked to set this once.*
 
 Now if we run the `status` command again, we will see the output for a normal, `Unmodified` `git` repository.
 
@@ -133,22 +133,103 @@ Date:   Thu Apr 18 20:15:23 2019 -0700
     My first commit
 ```
 
-This will show us the unique hash for each commit (which can be used to look it up later), as well as the Author, Date, and Commit Message.
+This will show us the unique hash for each commit (which can be used to look up the commit later), as well as the Author, Date, and Commit Message.  It also shows which commit is currently set as the `HEAD` for the current branch.  For this, think of a tape playing through a cassette player.  The head of that cassette can be at any point in the music track and can be rewound, or fast-forwarded to move around through the music.
 
 ## Making Changes
 
-```
+Now that we have one commit, let's add some content to our `index.html` page to spice it up a bit.  For this you can use `nano`, `vi`, `emacs` or any text editor of your choosing.
+
+```bash
 $ nano index.html
 ```
 
-```
+Once you have this open, paste the contents of the `index.html` page from this repository to act as a base for your `index.html` page.  When you are done, save it, and run the `status` command.
+
+```bash
 $ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
 ```
+
+As you can see , our `index.html` page is now in the `Modified` state.  To stage the file, and commit, simply run the same commands as before.
+
+**NOTE**: *The `.` selects all of the files in the current directory*
 
 ```bash
 $ git add .
 $ git commit
 ```
+
+From here you can again run the `status` and `log` commands to check in on what `git` did.
+
+```bash
+$ git status
+On branch master
+nothing to commit, working tree clean
+$ git log
+commit 4ad7c47199abb9df0613a16828a0cdae0560628a (HEAD -> master)
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 21:05:51 2019 -0700
+
+    Adds content to index.html page
+
+commit dfbd01f915e535b6936693b43e297236a095f4bb
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 20:15:23 2019 -0700
+
+    My first commit
+```
+
+As you can see you now have a second commit on top of your previous commit which has become our new `HEAD` as well as now being at the new top of `master`.  New commits will always automatically advance the `HEAD`, but let's say we wanted to get back to our previous, blank `index.html` page.  In order to do this, we will use the `checkout` command followed by your first commit's hash.
+
+```bash
+$ git checkout dfbd01f915e535b6936693b43e297236a095f4bb
+Note: checking out 'dfbd01f915e535b6936693b43e297236a095f4bb'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b <new-branch-name>
+
+HEAD is now at dfbd01f My first commit
+```
+
+From the above, you can see that `git` is warning us about the state we are in because if we make changes at this point we will likely lose our changes (unless we create a branch off of this commit as described in the message, and as expanded on later on).  If we were to run `status` and `log` at this point we would see some warnings about our `HEAD` being detached, and see that we are actually no longer on a defined branch.
+
+```bash
+$ git status
+HEAD detached at dfbd01f
+nothing to commit, working tree clean
+$ git log
+commit dfbd01f915e535b6936693b43e297236a095f4bb (HEAD)
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 20:15:23 2019 -0700
+
+    My first commit
+```
+
+In order to get out of this state after looking around, we can simply run the `checkout` command, but specify our branch `master` instead of a `git` hash.
+
+
+```bash
+$ git checkout master
+Previous HEAD position was dfbd01f My first commit
+Switched to branch 'master'
+```
+
+## Branching Out
+
+
 
 ## Using Remotes
 
@@ -159,7 +240,3 @@ $ git remote add origin <your-git-repo-url>
 ```bash
 $ git push -u origin master
 ```
-
-## Branching Out
-
-
