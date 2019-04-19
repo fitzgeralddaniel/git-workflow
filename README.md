@@ -229,7 +229,192 @@ Switched to branch 'master'
 
 ## Branching Out
 
+Branches in `git` can be thought of in many ways as branches of a tree, they can both `branch` out from one another, as well as `merge` back together again.  Another way to think of them is as named commits, and since every commit builds off of the previous commits they retain those commits in that branch's `log`.  Git commits can also exist across branches and in each other's history, again since every commit builds off of those prior. Git repositories can have thousands of branches with thousands of parallel tracks of work all existing simultaneously.  If you wanted to list the branches in a repository you can run the following command.
 
+```bash
+git branch
+* master
+```
+
+As you can see we only have one branch, which happens to be the default `master` branch. Normally this branch is treated as a special branch that contains the canonical source of whatever you are creating, and normally you would not want to push breaking or draft changes directly to the `master` branch.
+
+If you went ahead and took a look at our index.html page, you might notice that it looks slightly bland, but it is functional for the most part.  Let's add some styling to it, but create a branch so as to avoid making breaking changes to our page as we modify and commit changes to it.  In order to create a new branch, you can run the following command:
+
+```bash
+$ git branch css-test
+```
+
+Now you have a `css-test` branch (you can see it with `git branch`), but have not checked it out yet.  In order to do this, run the `checkout` command for the new `css-test` branch as you did with `master` before.
+
+**NOTE**: *A shortcut to both create a branch and check it out is to use the `-b` switch on the checkout command as in `git checkout -b css-test`*
+
+```bash
+$ git checkout css-test
+Switched to branch 'css-test'
+```
+
+Now if we run the `status` command, we will see that we are on the `css-test` branch.
+
+```bash
+$ git status
+On branch css-test
+nothing to commit, working tree clean
+```
+
+Now that we are on the right branch, we can bring over the `cover.css` file from this repository into yours as we did with the `index.html` file earlier.  Feel free to edit the file as you like, and then run the following commands to stage and commit the file:
+
+```bash
+$ git add .
+$ git commit
+```
+
+If we were to run the `log` command at this point, we would see that our new commit is at the top of our `css-test` branch, and that our `HEAD` is set to the same, but that our `master` branch is now behind by one commit.
+
+
+```bash
+$ git log
+commit 44066ba020e78edcaa8e740db0692ada548e5ab6 (HEAD -> css-test)
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 21:50:19 2019 -0700
+
+    Adds styling to the cover page
+
+commit 4ad7c47199abb9df0613a16828a0cdae0560628a (master)
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 21:05:51 2019 -0700
+
+    Adds content to index.html page
+
+commit dfbd01f915e535b6936693b43e297236a095f4bb
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 20:15:23 2019 -0700
+
+    My first commit
+```
+
+Once we are done with our changes, we will need to `merge` our `css-test` branch back into `master` in order to bring it up to speed.  To do this, we will need to `checkout` the `master` branch again, and use the `merge` command to bring in the changes from our `css-test` branch.
+
+```bash
+$ git checkout master
+Switched to branch 'master'
+$ git merge css-test
+Updating 4ad7c47..44066ba
+Fast-forward
+ cover.css | 110 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
+ create mode 100644 cover.css
+```
+
+As you can see, `git` fast-forwarded our changes from `css-test` onto the `master`branch. It was able to do this without any user interaction because the changes on each branch did not conflict, and `git` was able to figure out how to splice the changes together on its own, if this was not the case, `git` would show a merge conflict which will be explained in the next section.  If we run `log` at this point, we will see that `master` and `css-test` are set to the same commit.
+
+```bash
+$ git log
+commit 44066ba020e78edcaa8e740db0692ada548e5ab6 (HEAD -> master, css-test)
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 21:50:19 2019 -0700
+
+    Adds styling to the cover page
+
+commit 4ad7c47199abb9df0613a16828a0cdae0560628a
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 21:05:51 2019 -0700
+
+    Adds content to index.html page
+
+commit dfbd01f915e535b6936693b43e297236a095f4bb
+Author: Your Name <youremail@emailland.com>
+Date:   Thu Apr 18 20:15:23 2019 -0700
+
+    My first commit
+```
+
+## Merge Conflicts
+
+Merge conflicts arise when to branches are merged together that have changes that cover the same file(s) and line number(s).  Let's create a merge conflict so that we can resolve it and get back into a good state.  First we'll create a new branch to change the top nav bar to show our name instead of the generic `Cover`.
+
+```bash
+$ git checkout -b name-test
+```
+
+Once on the new branch, change the `index.html` page on line `27` to use your name instead of `Cover`.  Once you save the file, you can stage and commit to the `name-test` branch.
+
+
+```bash
+$ git add .
+$ git commit
+```
+
+After that, let's checkout `master` again so we can edit the same line in the same file on a different branch.
+
+```bash
+$ git checkout master
+```
+
+Now edit your `index.html` page on line `27` to be something different than `Cover`, and different from the name you put in before.
+
+**NOTE**: *`git` can be smart sometimes if the exact same change is made in the exact same way, so make sure it different than before.*
+
+Once saved, stage and commit the file as before.
+
+```bash
+$ git add .
+$ git commit
+```
+
+** NOTE**: *If we run the `log` command at this point we will see that our `name-test` commit is not visible because it is not part of the history of `master`*
+
+We are now ready to create our merge conflict.  Since we are already on the `master` branch, run the following command to `merge` name-test` into `master`:
+
+```bash
+$ git merge name-test
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+Oh no, a merge conflict! If we run the `status` command now, we will see what we would expect, that both branches edited the `index.html` page as well as some helpful tips to get out of the current state that we are in.
+
+```bash
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+	both modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+
+And if we look at our `index.html` file, we will see that `git` has helpfully segmented the changes for our review so that we can manually merge the two changes together.
+
+```bash
+<div class="inner">
+<<<<<<< HEAD
+<h3 class="masthead-brand">My Dog</h3>
+=======
+<h3 class="masthead-brand">Your Name</h3>
+>>>>>>> name-test
+<nav class="nav nav-masthead justify-content-center">
+```
+
+In this case, we can simply delete the `<<<<<<< HEAD`, `=======`, and `>>>>>>> name-test` lines and choose which `<h3>` tag to accept, either the one from our current `HEAD` or from the `name-test` branch.  Once these edits are made, we can save the file, but aren't out of the woods yet.  In order to fully resolve the conflicts and finalize our changes, we need to stage and commit the `index.html` file to the current branch.
+
+```bash
+$ git add .
+$ git commit
+```
+
+Once this is done, we can run `status` again, and see that we are on a clean `master` branch again.
+
+```bash
+$ git status
+On branch master
+nothing to commit, working tree clean
+```
 
 ## Using Remotes
 
