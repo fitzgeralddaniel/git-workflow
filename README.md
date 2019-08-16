@@ -470,7 +470,7 @@ Once this runs, you should be able to see the file you created populate in your 
 
 ## GitHub Pages
 
-Other great things about remote's are the custom extensions that they have built around the `git` infrastructure, such as issue tracking, collaboration management, and even website hosting.  GitHub supports a feature called `GitHub Pages` that we can use to get the website we have been building hosted on GitHub.  To enable GitHub pages, go to your project's settings in GitHub, scroll to the GitHub Pages section, and set the Source to your `master` branch.
+Other great thing about remote's are the custom extensions that they have built around the `git` infrastructure, such as issue tracking, collaboration management, and even website hosting.  GitHub supports a feature called `GitHub Pages` that we can use to get the website we have been building hosted on GitHub.  To enable GitHub pages, go to your project's settings in GitHub, scroll to the GitHub Pages section, and set the Source to your `master` branch.
 
 Once that's done, your site is published!  From here feel free to edit the site as you wish, and customize it to make it your own, all within your newfound `git` workflow!  You can also add collaborators to your site if you wish, and they canget an exactcopy of the repository on their devices using the `clone` command:
 
