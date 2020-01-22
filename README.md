@@ -418,7 +418,7 @@ nothing to commit, working tree clean
 
 ## Using Remotes
 
-**NOTE:** *From here on out, this guide assumes that you have a GitHub account. GitLab, and other git remote hosts provide similar features but differ in their implementation.*
+**NOTE:** *From here on out, this guide assumes that you have a GitHub account. GitLab, and other git remote hosts provide similar features but may differ slightly in their implementation.*
 
 Now that you have learned the basics of using `git` locally, it's time to add a `remote` to your project.  A `remote` is simply a named server that you `push` your commits to so that others can `pull` them back down.  For this we will create a GitHub repository by creating a GitHub account, and selecting the `+` button in the top right, then `New Repository`, and filling out the form with the information it requests.  Once this is done, we can copy the remote's `.git` URL and proceed with adding a remote on the command line.
 
