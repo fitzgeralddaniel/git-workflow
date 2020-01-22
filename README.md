@@ -424,7 +424,7 @@ Now that you have learned the basics of using `git` locally, it's time to add a 
 
 To add a remote for your GitHub repository named `origin` (the default name for most single-remote `git` projects), run the following command:
 
-**NOTE:** *For simplicities sake it may be easier to use an `https` remote URL instead of an `ssh` URL.  If you are unfamiliar with creating SSH keys, I would recommend using the `https` version.*
+**NOTE:** *For simplicity's sake it may be easier to use an `https` remote URL instead of an `ssh` URL.  If you are unfamiliar with creating SSH keys, I would recommend using the `https` version.*
 
 ```bash
 $ git remote add origin <your-git-remote-url>
