@@ -330,7 +330,7 @@ Date:   Thu Apr 18 20:15:23 2019 -0700
 
 ## Merge Conflicts
 
-Merge conflicts arise when to branches are merged together that have changes that cover the same file(s) and line number(s).  Let's create a merge conflict so that we can resolve it and get back into a good state.  First we'll create a new branch to change the top nav bar to show our name instead of the generic `Cover`.
+Merge conflicts arise when two branches are merged together that have changes that cover the same file(s) and line number(s).  Let's create a merge conflict so that we can resolve it and get back into a good state.  First we'll create a new branch to change the top nav bar to show our name instead of the generic `Cover`.
 
 ```bash
 $ git checkout -b name-test
