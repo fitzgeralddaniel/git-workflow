@@ -42,11 +42,10 @@ drwxr-xr-x   3 starr  staff   96 Apr 18 18:09 .
 drwxr-xr-x  17 starr  staff  544 Apr 18 18:09 ..
 drwxr-xr-x   9 starr  staff  288 Apr 18 18:09 .git
 ```
-And if you navigate into that directory, you will see the various files and folders that `git` uses to track changes and maintain its configuration.  If you are curious what these files do, and what they are for most of it is explained in the [Pro Git Book](https://git-scm.com/book/en/v2) mentioned above.
+And if you navigate into that directory, you will see the various files and folders that `git` uses to track changes and maintain its configuration.  If you are curious what these files do, and what they are for, most of it is explained in the [Pro Git Book](https://git-scm.com/book/en/v2) mentioned above.
 
 ```bash
-$ cd .git
-$ ls -la
+$ ls -la .git
 total 24
 drwxr-xr-x   9 starr  staff  288 Apr 18 18:09 .
 drwxr-xr-x   3 starr  staff   96 Apr 18 18:09 ..
