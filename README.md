@@ -363,7 +363,7 @@ $ git commit
 
 **NOTE:** *If we run the `log` command at this point we will see that our `name-test` commit is not visible because it is not part of the history of `master`*
 
-We are now ready to create our merge conflict.  Since we are already on the `master` branch, run the following command to `merge` name-test` into `master`:
+We are now ready to create our merge conflict.  Since we are already on the `master` branch, run the following command to `merge` `name-test` into `master`:
 
 ```bash
 $ git merge name-test
